@@ -1,5 +1,14 @@
 class Solution {
 public:
+    long myAtoirec(const string&s,int i,int sign,long ans)
+    {
+        if(i>=s.length()|| !isdigit(s[i]))
+            return ans*sign;
+        ans=ans*10+(s[i]-'0');
+        if(sign ==1 && ans>INT_MAX) return INT_MAX;
+        if(sign ==-1 && -ans<INT_MIN) return INT_MIN;
+        return myAtoirec(s,i+1,sign,ans);
+    }
     int myAtoi(string s) 
     {
            int i=0;
@@ -7,6 +16,7 @@ public:
         long ans=0;
         while(i<s.length() && s[i]==' ')
             i++;
+        
         if(s[i]=='-')
         {
             sign=-1;
@@ -14,20 +24,7 @@ public:
         }
         else if(s[i]=='+')
             i++;
-        while(i<s.length())
-        {
-            if(s[i]>='0' && s[i]<='9')
-            {
-                ans=ans*10+(s[i]-'0');
-                if(ans>INT_MAX && sign==-1)
-                    return INT_MIN;
-                else if(ans>INT_MAX && sign==1)
-                    return INT_MAX;
-                i++;
-            }
-            else
-                return ans*sign;
-        }
+       return myAtoirec(s,i,sign,ans); 
         return (ans*sign);
     }
 };
