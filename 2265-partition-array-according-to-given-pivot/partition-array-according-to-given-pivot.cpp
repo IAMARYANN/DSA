@@ -1,25 +1,26 @@
 class Solution {
 public:
-    vector<int> pivotArray(vector<int>& nums, int pivot) {
-        int n=nums.size();
-        vector<int>low;
-        vector<int>equal;
-        vector<int>high;
-        vector<int>ans;
-        vector<int>result;
-       for( int x : nums ){
-            if(x<pivot){
-                low.push_back(x);
-            }
-            else if(x>pivot){
-                high.push_back(x);
-            }
-            else{
-                equal.push_back(x);
-            }
-       }
-       low.insert(low.end(),equal.begin(),equal.end());
-       low.insert(low.end(),high.begin(),high.end());
-       return low;
+   vector<int> pivotArray(vector<int>& nums, int pivot) {
+    int low = 0, equal = 0, high = 0;
+
+    // First pass: Count the number of elements in each category
+    for (int num : nums) {
+        if (num < pivot) low++;
+        else if (num == pivot) equal++;
+        else high++;
     }
+
+    // Create a new array and place elements based on the count
+    vector<int> result(nums.size());
+    int i = 0, j = low, k = low + equal;
+
+    // Second pass: Place elements in correct order
+    for (int num : nums) {
+        if (num < pivot) result[i++] = num;
+        else if (num == pivot) result[j++] = num;
+        else result[k++] = num;
+    }
+
+    return result;
+}
 };
