@@ -6,9 +6,9 @@ public:
        int swaping_index=1;
        for(int i=1;i<n;i++){
           if(nums[i]>nums[final_index]){
-             nums[swaping_index]=nums[i];
+            swap(nums[i],nums[swaping_index]);
+             final_index=swaping_index;
              swaping_index++;
-             final_index=i;
           }
        }
        nums.erase(nums.begin()+swaping_index,nums.end());
