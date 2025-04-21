@@ -11,27 +11,15 @@
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        if(head == nullptr || head->next == nullptr) return head;
-
-    vector<int> ans;
-    ListNode* temp = head;
-
-    while(temp != nullptr) {
-        ans.push_back(temp->val);
-        temp = temp->next;
-    }
-
-    reverse(ans.begin(), ans.end());
-
-    
-    ListNode* newHead = new ListNode(ans[0]);
-    ListNode* mover = newHead;
-    for(int i = 1; i < ans.size(); i++) {
-        ListNode* node = new ListNode(ans[i]);
-        mover->next = node;
-        mover = mover->next;
-    }
-
-    return newHead;
+       ListNode *temp=head;
+       ListNode *prev=nullptr;
+       
+       while(temp!=nullptr){
+         ListNode *front=temp->next;
+         temp->next=prev;
+         prev=temp;
+         temp=front;
+       }
+       return prev;
     }
 };
