@@ -9,23 +9,45 @@
  * };
  */
 class Solution {
+    ListNode* reverseit(ListNode* newHead) {
+        ListNode* prev = nullptr;
+        ListNode* temp = newHead;
+
+        while (temp != nullptr) {
+            ListNode* front = temp->next;
+            temp->next = prev;
+            prev = temp;
+            temp = front;
+        }
+        return prev;
+    }
+
 public:
     bool isPalindrome(ListNode* head) {
-        ListNode *temp=head;
-        vector<int>ans;
-        while(temp!=nullptr){
-            ans.push_back(temp->val);
-            temp=temp->next;
+        if (head == nullptr || head->next == nullptr) return true;
+
+        ListNode* temp = head;
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        // Find middle
+        while (fast->next != nullptr && fast->next->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        int s=0;
-        int e=ans.size()-1;
-        while(s<=e){
-            if(ans[s]!=ans[e]){
+
+        // Reverse second half
+        ListNode* newtemp = reverseit(slow->next);
+
+        // Compare both halves
+        while (newtemp != nullptr) {
+            if (temp->val != newtemp->val) {
                 return false;
             }
-            s++;
-            e--;
+            temp = temp->next;
+            newtemp = newtemp->next;
         }
+
         return true;
     }
 };
