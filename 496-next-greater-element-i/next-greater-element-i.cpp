@@ -1,35 +1,42 @@
 class Solution {
 public:
+    int Check(vector<int> nums2,int k,vector<int>v){
+         for(int i=0;i<nums2.size();i++){
+            if(nums2[i]==k){
+                return v[i];
+            }
+         }
+         return 0;
+    }
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-        unordered_map<int,int>ele;
-        vector<int>ans;
+        vector<int>v;
+        vector<int>k;
         stack<int>s;
         for(int i=nums2.size()-1;i>=0;i--){
             if(s.size()==0){
-                ele[nums2[i]]=-1;
+                 v.push_back(-1);
             }
-            else if(s.size()>0 && nums2[i]<s.top()){
-                ele[nums2[i]]=s.top();
+            else if(s.size()>0 && s.top()>nums2[i]){
+                v.push_back(s.top());
             }
-            else if(s.size()>0 && nums2[i]>=s.top()){
-                while(s.size()>0 && nums2[i]>=s.top()){
+            else if(s.size()>0 && s.top()<=nums2[i]){
+                while(s.size()>0 && s.top()<=nums2[i]){
                     s.pop();
                 }
                 if(s.size()==0){
-                    ele[nums2[i]]=-1;
+                    v.push_back(-1);
                 }
                 else{
-                    ele[nums2[i]]=s.top();
+                    v.push_back(s.top());
                 }
             }
             s.push(nums2[i]);
         }
+        reverse(v.begin(),v.end());
         for(int i=0;i<nums1.size();i++){
-            auto it = ele.find(nums1[i]);
-            if(it != ele.end()){
-                nums1[i]=it->second;
-            }
+            int ans=Check(nums2,nums1[i],v);
+            k.push_back(ans);
         }
-        return nums1;
+        return k;
     }
 };
