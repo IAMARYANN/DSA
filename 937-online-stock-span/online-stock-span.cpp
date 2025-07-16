@@ -1,21 +1,22 @@
 class StockSpanner {
-    stack<pair<int, int>> st; // pair of <price, span>
-
+    private:
+        stack<pair<int,int>>st;
+        int index=-1;
+        
 public:
-    StockSpanner() {}
-
+    StockSpanner() {
+    }
     int next(int price) {
-        int span = 1;
-        while (!st.empty() && st.top().first <= price) {
-            span += st.top().second;
+        index=index+1;
+        while(!st.empty() && st.top().first <= price ){
             st.pop();
         }
-
-        // Push current price and its calculated span
-        st.push({price, span});
-        return span;
+       int ans = index - (st.empty()?-1 : st.top().second);
+       st.push({price,index});
+       return ans;
     }
 };
+
 /**
  * Your StockSpanner object will be instantiated and called as such:
  * StockSpanner* obj = new StockSpanner();
