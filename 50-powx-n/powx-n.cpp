@@ -1,20 +1,24 @@
 class Solution {
 public:
-    double myPow(double x, int n) {
-    if (n == 0) return 1;
-    
-    // Handle negative exponent
-    long long N = n; // Use long long to handle INT_MIN case
-    if (N < 0) {
-        x = 1 / x;
-        N = -N;
-    }
+    double Cpow(double x ,long long n){
+        if(n==0)return 1;
+        if(n==1)return x;
+        
+        double half = Cpow(x,n/2);
+        double res = half * half ;
 
-    double half = myPow(x, N / 2);
-    if (N % 2 == 0) {
-        return half * half;
-    } else {
-        return half * half * x;
+        if(n%2 == 1){
+            res =res * x;
+        }
+        return res;
     }
-}
+    double myPow(double x, int n) {
+       long long N = n; // long long to avoid overflow
+       if (N < 0) {
+        N = -N; 
+        double pow1 = Cpow(x, N);
+        return 1 / pow1;
+       }
+        return Cpow(x, N);
+   }
 };
